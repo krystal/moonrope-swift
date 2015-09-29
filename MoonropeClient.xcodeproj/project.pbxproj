@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		66F466FB1BBAB254001FF260 /* MoonropeClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 66F466FA1BBAB254001FF260 /* MoonropeClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		66F467031BBAB2EB001FF260 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F467021BBAB2EB001FF260 /* Client.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		66F466F71BBAB254001FF260 /* MoonropeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoonropeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66F466FA1BBAB254001FF260 /* MoonropeClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoonropeClient.h; sourceTree = "<group>"; };
 		66F466FC1BBAB254001FF260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66F467021BBAB2EB001FF260 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Client.swift; path = Source/Client.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			children = (
 				66F466FA1BBAB254001FF260 /* MoonropeClient.h */,
 				66F466FC1BBAB254001FF260 /* Info.plist */,
+				66F467021BBAB2EB001FF260 /* Client.swift */,
 			);
 			path = MoonropeClient;
 			sourceTree = "<group>";
@@ -90,6 +93,7 @@
 		66F466EE1BBAB254001FF260 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Adam Cooke";
 				TargetAttributes = {
@@ -130,6 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66F467031BBAB2EB001FF260 /* Client.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +233,7 @@
 		66F467001BBAB254001FF260 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -238,12 +244,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.adamcoke.MoonropeClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		66F467011BBAB254001FF260 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
