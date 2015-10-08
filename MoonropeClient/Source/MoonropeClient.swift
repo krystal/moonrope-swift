@@ -1,5 +1,5 @@
 //
-//  Client.swift
+//  MoonropeClient.swift
 //  MoonropeClient
 //
 //  Created by Adam Cooke on 29/09/2015.
@@ -13,13 +13,13 @@ public enum MoonropeResponse {
     // Returned when the request has been successful. Provides the data and flags.
     //
     case Success(data:AnyObject, flags:[String:AnyObject])
-    
+
     //
     // Returned when there is a Moonrope error. Contains the details of the error
     // and the full data for the response.
     //
     case Error (errorType:String, data:AnyObject)
-    
+
     //
     // Returned when there was a failure actually communicating successfully
     // with the remote server.
@@ -27,13 +27,13 @@ public enum MoonropeResponse {
     case Failure(message:String)
 }
 
-public class Client {
+public class MoonropeClient {
 
     let httpHost : String
     let httpProtocol : String
     let apiVersion : Int
     var headers : [String:String]
-    
+
     //
     // Initialize by providing the host and protocol
     //
@@ -50,16 +50,23 @@ public class Client {
     public func addHeader(name:String, withValue value:String) {
         self.headers[name] = value
     }
-    
+
+    //
+    // Generate a new request object with the given details
+    //
+    public func request(identifier: String, delegate: MoonropeRequestDelegate) -> MoonropeRequest {
+        return MoonropeRequest(client: self, withIdentifier: identifier, andDelegate: delegate)
+    }
+
     //
     // Convinence method for making a request without params
     //
     public func makeRequest(path:String, completionHandler:(response:MoonropeResponse)->()) {
         makeRequest(path, withParams: Dictionary(), completionHandler:completionHandler)
     }
-    
-    // 
-    // Make a request to the remote server with the given params and execute the completion 
+
+    //
+    // Make a request to the remote server with the given params and execute the completion
     // handler when complete. The handler will be called with a MoonropeResponse enum containing
     // the appropriate response information.
     //
@@ -76,13 +83,13 @@ public class Client {
                         let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! [String:AnyObject]
                         let moonropeStatus = (jsonData["status"] as! String)
                         let moonropeFlags = (jsonData["flags"] as! [String:AnyObject])
- 
+
                         if moonropeStatus == "success" {
                             completionHandler(response: MoonropeResponse.Success(data: jsonData["data"]!, flags: moonropeFlags))
                         } else {
                             completionHandler(response: MoonropeResponse.Error(errorType:moonropeStatus, data: jsonData["data"]!))
                         }
-                        
+
                     } catch {
                         completionHandler(response: MoonropeResponse.Failure(message: "Couldn't decode the JSON"))
                     }
@@ -99,8 +106,8 @@ public class Client {
         task.resume()
         return true
     }
-    
-    // 
+
+    //
     // Create a new request object for the given path & set of parameters
     //
     func createRequest(path:String, params:[String:AnyObject]) -> NSURLRequest {
@@ -121,7 +128,7 @@ public class Client {
         }
         return request
     }
-    
+
     //
     // Create some JSON data to send to the remote server from the given dictionary of params
     //
