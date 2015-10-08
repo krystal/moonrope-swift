@@ -48,7 +48,7 @@ class ExampleViewController : UITableViewController, MoonropeResponseDelegate {
 
   /// This delegate method will be called when a request fails for any reason.
   func moonropeRequest(moonropeRequest:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
-    // Show an error or something. You can add your own login for this.
+    // Show an error or something. You can add your own logic for this.
   }
 
 }
