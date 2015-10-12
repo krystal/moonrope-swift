@@ -70,7 +70,7 @@ public class MoonropeClient {
     // handler when complete. The handler will be called with a MoonropeResponse enum containing
     // the appropriate response information.
     //
-    public func makeRequest(path:String, withParams params:[String:AnyObject], completionHandler:(response:MoonropeResponse)->()) -> Bool {
+    public func makeRequest(path:String, withParams params:[String:AnyObject], completionHandler:((response:MoonropeResponse)->())?) -> Bool {
         let request = self.createRequest(path, params: params)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) {
@@ -85,22 +85,22 @@ public class MoonropeClient {
                         let moonropeFlags = (jsonData["flags"] as! [String:AnyObject])
 
                         if moonropeStatus == "success" {
-                            completionHandler(response: MoonropeResponse.Success(data: jsonData["data"]!, flags: moonropeFlags))
+                            completionHandler?(response: MoonropeResponse.Success(data: jsonData["data"]!, flags: moonropeFlags))
                         } else {
-                            completionHandler(response: MoonropeResponse.Error(errorType:moonropeStatus, data: jsonData["data"]!))
+                            completionHandler?(response: MoonropeResponse.Error(errorType:moonropeStatus, data: jsonData["data"]!))
                         }
 
                     } catch {
-                        completionHandler(response: MoonropeResponse.Failure(message: "Couldn't decode the JSON"))
+                        completionHandler?(response: MoonropeResponse.Failure(message: "Couldn't decode the JSON"))
                     }
                 } else {
                     // Something is afoot. This is a failure of the API because all moonrope requests
                     // should have a 200 status.
                     print("Something went wrong with the API: \(stringData) (code: \(actualResponse.statusCode)")
-                    completionHandler(response: MoonropeResponse.Failure(message: "Moonrope Internal Error"))
+                    completionHandler?(response: MoonropeResponse.Failure(message: "Moonrope Internal Error"))
                 }
             } else {
-                completionHandler(response: MoonropeResponse.Failure(message: error!.localizedDescription))
+                completionHandler?(response: MoonropeResponse.Failure(message: error!.localizedDescription))
             }
         }
         task.resume()
