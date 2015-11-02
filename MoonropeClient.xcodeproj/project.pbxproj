@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6661E23E1BE814B80019D5F9 /* MoonropeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661E23B1BE814B80019D5F9 /* MoonropeClient.swift */; };
+		6661E23F1BE814B80019D5F9 /* MoonropeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661E23C1BE814B80019D5F9 /* MoonropeRequest.swift */; };
+		6661E2401BE814B80019D5F9 /* MoonropeRequestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661E23D1BE814B80019D5F9 /* MoonropeRequestDelegate.swift */; };
 		66F466FB1BBAB254001FF260 /* MoonropeClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 66F466FA1BBAB254001FF260 /* MoonropeClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		66F467031BBAB2EB001FF260 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F467021BBAB2EB001FF260 /* Client.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6661E23B1BE814B80019D5F9 /* MoonropeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoonropeClient.swift; path = Source/MoonropeClient.swift; sourceTree = "<group>"; };
+		6661E23C1BE814B80019D5F9 /* MoonropeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoonropeRequest.swift; path = Source/MoonropeRequest.swift; sourceTree = "<group>"; };
+		6661E23D1BE814B80019D5F9 /* MoonropeRequestDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoonropeRequestDelegate.swift; path = Source/MoonropeRequestDelegate.swift; sourceTree = "<group>"; };
 		66F466F71BBAB254001FF260 /* MoonropeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoonropeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66F466FA1BBAB254001FF260 /* MoonropeClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoonropeClient.h; sourceTree = "<group>"; };
 		66F466FC1BBAB254001FF260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66F467021BBAB2EB001FF260 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Client.swift; path = Source/Client.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +54,9 @@
 			children = (
 				66F466FA1BBAB254001FF260 /* MoonropeClient.h */,
 				66F466FC1BBAB254001FF260 /* Info.plist */,
-				66F467021BBAB2EB001FF260 /* Client.swift */,
+				6661E23B1BE814B80019D5F9 /* MoonropeClient.swift */,
+				6661E23C1BE814B80019D5F9 /* MoonropeRequest.swift */,
+				6661E23D1BE814B80019D5F9 /* MoonropeRequestDelegate.swift */,
 			);
 			path = MoonropeClient;
 			sourceTree = "<group>";
@@ -93,7 +99,7 @@
 		66F466EE1BBAB254001FF260 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Adam Cooke";
 				TargetAttributes = {
@@ -134,7 +140,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66F467031BBAB2EB001FF260 /* Client.swift in Sources */,
+				6661E23F1BE814B80019D5F9 /* MoonropeRequest.swift in Sources */,
+				6661E2401BE814B80019D5F9 /* MoonropeRequestDelegate.swift in Sources */,
+				6661E23E1BE814B80019D5F9 /* MoonropeClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +292,7 @@
 				66F467011BBAB254001FF260 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
