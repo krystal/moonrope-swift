@@ -6,6 +6,8 @@
 //  Copyright © 2015 Adam Cooke. All rights reserved.
 //
 
+import Foundation
+
 public protocol MoonropeRequestDelegate {
     func moonropeRequest(moonropeRequest:MoonropeRequest, willMakeRequest path: String, withParams params: [String:AnyObject])
     func moonropeRequest(moonropeRequest:MoonropeRequest, didMakeRequest response: MoonropeResponse)
