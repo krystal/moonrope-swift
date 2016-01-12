@@ -44,8 +44,8 @@ public class MoonropeRequest {
 
             switch(response) {
             case .Success(data: let responseData, flags: let flags):
-                self.dynamicType.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags as NSDictionary)
-                self.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags as NSDictionary)
+                self.dynamicType.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags)
+                self.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags)
 
             case .Failure(message: let failureMessage):
                 self.dynamicType.delegate?.moonropeRequest(self, didNotSucceed: response)
