@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class MoonropeRequest {
+open class MoonropeRequest {
 
     let client : MoonropeClient
-    public var identifier : String?
-    public var delegate : MoonropeRequestDelegate?
-    public static var delegate : MoonropeRequestDelegate?
+    open var identifier : String?
+    open var delegate : MoonropeRequestDelegate?
+    open static var delegate : MoonropeRequestDelegate?
 
     init(client:MoonropeClient) {
         self.client = client
@@ -29,36 +29,37 @@ public class MoonropeRequest {
         self.delegate = delegate
     }
 
-    public func make(path:String) {
+    open func make(_ path:String) {
         self.make(path, withParams: [String:AnyObject]())
     }
 
-    public func make(path:String, withParams params: [String:AnyObject]) {
-        self.dynamicType.delegate?.moonropeRequest(self, willMakeRequest: path, withParams: params)
+    open func make(_ path:String, withParams params: [String:AnyObject]) {
+        type(of: self).delegate?.moonropeRequest(self, willMakeRequest: path, withParams: params)
         self.delegate?.moonropeRequest(self, willMakeRequest: path, withParams: params)
 
         self.client.makeRequest(path, withParams: params) {
             response in
-            self.dynamicType.delegate?.moonropeRequest(self, didMakeRequest: response)
+            type(of: self).delegate?.moonropeRequest(self, didMakeRequest: response)
             self.delegate?.moonropeRequest(self, didMakeRequest: response)
 
             switch(response) {
-            case .Success(data: let responseData, flags: let flags):
-                self.dynamicType.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags)
-                self.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags)
+            case .success(data: let responseData, flags: let flags):
+                type(of: self).delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags as NSDictionary)
+                self.delegate?.moonropeRequest(self, didSucceedWith: responseData, andFlags: flags as NSDictionary)
 
-            case .Failure(message: let failureMessage):
-                self.dynamicType.delegate?.moonropeRequest(self, didNotSucceed: response)
-                self.dynamicType.delegate?.moonropeRequest(self, didFail: failureMessage)
+            case .failure(message: let failureMessage):
+                type(of: self).delegate?.moonropeRequest(self, didNotSucceed: response)
+                type(of: self).delegate?.moonropeRequest(self, didFail: failureMessage)
                 self.delegate?.moonropeRequest(self, didNotSucceed: response)
                 self.delegate?.moonropeRequest(self, didFail: failureMessage)
 
-            case .Error(errorType: let errorType, data: let errorData):
-                self.dynamicType.delegate?.moonropeRequest(self, didNotSucceed: response)
-                self.dynamicType.delegate?.moonropeRequest(self, didErrorWithType: errorType, andData: errorData)
+            case .error(errorType: let errorType, data: let errorData):
+                type(of: self).delegate?.moonropeRequest(self, didNotSucceed: response)
+                type(of: self).delegate?.moonropeRequest(self, didErrorWithType: errorType, andData: errorData)
                 self.delegate?.moonropeRequest(self, didNotSucceed: response)
                 self.delegate?.moonropeRequest(self, didErrorWithType: errorType, andData: errorData)
             }
         }
     }
 }
+
