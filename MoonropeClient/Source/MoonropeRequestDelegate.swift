@@ -9,36 +9,41 @@
 import Foundation
 
 public protocol MoonropeRequestDelegate {
-    func moonropeRequest(moonropeRequest:MoonropeRequest, willMakeRequest path: String, withParams params: [String:AnyObject])
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didMakeRequest response: MoonropeResponse)
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didSucceedWith responseData: AnyObject, andFlags flags: [String:AnyObject])
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didFail errorMessage: String)
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didErrorWithType errorMessage: String, andData errorData : AnyObject)
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didNotSucceed response: MoonropeResponse)
+    func moonrope(request:MoonropeRequest, willMakeRequest path: String, withParams params: [String:Any])
+    func moonrope(request:MoonropeRequest, didMakeRequest response: MoonropeResponse)
+    func moonrope(request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any])
+    func moonrope(request:MoonropeRequest, didFail errorMessage: String)
+    func moonrope(request:MoonropeRequest, didErrorWithType errorType: String, andData errorData : Any)
+    func moonrope(request:MoonropeRequest, didErrorWithCode errorCode: String?, andData errorData : [String:Any])
+    func moonrope(request:MoonropeRequest, didNotSucceed response: MoonropeResponse)
 }
 
 public extension MoonropeRequestDelegate {
-    func moonropeRequest(moonropeRequest:MoonropeRequest, willMakeRequest path: String, withParams params: [String:AnyObject]) {
+    func moonrope(request:MoonropeRequest, willMakeRequest path: String, withParams params: [String:Any]) {
         // Nothing by default.
     }
 
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didMakeRequest response: MoonropeResponse) {
+    func moonrope(request:MoonropeRequest, didMakeRequest response: MoonropeResponse) {
         // Nothing by default.
     }
 
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didSucceedWith responseData: AnyObject, andFlags flags: [String:AnyObject]) {
+    func moonrope(request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any]) {
         // Nothing by default.
     }
 
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didFail errorMessage: String) {
+    func moonrope(request:MoonropeRequest, didFail errorMessage: String) {
+        // Nothing by default.
+    }
+    
+    func moonrope(request:MoonropeRequest, didErrorWithType errorType: String, andData errorData : Any) {
+        // Nothing by default.
+    }
+    
+    func moonrope(request:MoonropeRequest, didErrorWithCode errorCode: String?, andData errorData : [String:Any]) {
         // Nothing by default.
     }
 
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didErrorWithType errorMessage: String, andData errorData : AnyObject) {
-        // Nothing by default.
-    }
-
-    func moonropeRequest(moonropeRequest:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
+    func moonrope(request:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
         // Nothing by default.
     }
 }

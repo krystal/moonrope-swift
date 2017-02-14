@@ -39,15 +39,20 @@ class ExampleViewController : UITableViewController, MoonropeResponseDelegate {
   }
 
   // This delegate method will be called when any request has completed successfully.
-  func moonropeRequest(moonropeRequest:MoonropeRequest, didSucceedWith responseData: AnyObject, andFlags flags: NSDictionary) {
+  func moonrope(request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any]) {
     if moonropeRequest.identifier == "GetWidgets" {
       self.widgets = responseData as! [NSDictionary]
       tableView.reloadData()
     }
   }
 
+  // This delegate method will be called when Moonrope returns an error
+  func moonrope(request:MoonropeRequest, didErrorWithCode errorCode: String?, andData errorData : [String:Any]) {
+    // Show an error or something. You can add your own logic for this.
+  }
+
   /// This delegate method will be called when a request fails for any reason.
-  func moonropeRequest(moonropeRequest:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
+  func moonrope(request:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
     // Show an error or something. You can add your own logic for this.
   }
 
@@ -69,11 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MoonropeRequestDelegate {
     MoonropeRequest.delegate = self
   }
 
-  func moonropeRequest(moonropeRequest: MoonropeRequest, willMakeRequest path: String, withParams params: [String : AnyObject]) {
+  func moonrope(request: MoonropeRequest, willMakeRequest path: String, withParams params: [String : Any]) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
   }
 
-  func moonropeRequest(moonropeRequest: MoonropeRequest, didMakeRequest response: MoonropeResponse) {
+  func moonrope(request: MoonropeRequest, didMakeRequest response: MoonropeResponse) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
   }
 
