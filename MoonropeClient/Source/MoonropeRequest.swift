@@ -30,10 +30,10 @@ public class MoonropeRequest {
     }
 
     public func make(_ path:String) {
-        self.make(path, withParams: [String:Any]())
+        self.make(path, withParams: [String:Any?]())
     }
 
-    public func make(_ path:String, withParams params: [String:Any]) {
+    public func make(_ path:String, withParams params: [String:Any?]) {
         type(of: self).delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
         self.delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
         
@@ -60,7 +60,7 @@ public class MoonropeRequest {
                 self.delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
                 
                 if(errorType == "error") {
-                    let params = errorData as! [String:Any]
+                    let params = errorData as! [String:Any?]
                     type(of: self).delegate?.moonrope(request: self, didErrorWithCode: params["code"] as? String, andData: params)
                     self.delegate?.moonrope(request: self, didErrorWithCode: params["code"] as? String, andData: params)
                 }

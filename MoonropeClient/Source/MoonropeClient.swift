@@ -12,7 +12,7 @@ public enum MoonropeResponse {
     //
     // Returned when the request has been successful. Provides the data and flags.
     //
-    case Success(data:Any, flags:[String:Any])
+    case Success(data:Any, flags:[String:Any?])
 
     //
     // Returned when there is a Moonrope error. Contains the details of the error
@@ -70,7 +70,7 @@ public class MoonropeClient {
     // handler when complete. The handler will be called with a MoonropeResponse enum containing
     // the appropriate response information.
     //
-    public func makeRequest(path:String, withParams params:[String:Any], completionHandler:((MoonropeResponse)->())?) {
+    public func makeRequest(path:String, withParams params:[String:Any?], completionHandler:((MoonropeResponse)->())?) {
         let request = self.createRequest(path: path, params: params)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) {
@@ -82,14 +82,14 @@ public class MoonropeClient {
                     do {
                         let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String:Any]
                         let moonropeStatus = (jsonData["status"] as! String)
-                        let moonropeFlags = (jsonData["flags"] as! [String:Any])
+                        let moonropeFlags = (jsonData["flags"] as! [String:Any?])
 
                         if moonropeStatus == "success" {
                             completionHandler?(MoonropeResponse.Success(data: jsonData["data"]!, flags: moonropeFlags))
                         } else {
                             completionHandler?(MoonropeResponse.Error(errorType:moonropeStatus, data: jsonData["data"]!))
                         }
-
+                        
                     } catch {
                         completionHandler?(MoonropeResponse.Failure(message: "Couldn't decode the JSON"))
                     }
@@ -109,7 +109,7 @@ public class MoonropeClient {
     //
     // Create a new request object for the given path & set of parameters
     //
-    func createRequest(path:String, params:[String:Any]) -> NSURLRequest {
+    func createRequest(path:String, params:[String:Any?]) -> NSURLRequest {
         let fullURL = "\(self.httpProtocol)://\(self.httpHost)/api/v\(self.apiVersion)/\(path)"
         let request = NSMutableURLRequest(url: NSURL(string: fullURL)! as URL)
         request.httpMethod = "POST"
@@ -131,7 +131,7 @@ public class MoonropeClient {
     //
     // Create some JSON data to send to the remote server from the given dictionary of params
     //
-    func createJSONFromParams(_ params: [String:Any]) -> Data? {
+    func createJSONFromParams(_ params: [String:Any?]) -> Data? {
         do {
             let data = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.init(rawValue: 0))
             return data
