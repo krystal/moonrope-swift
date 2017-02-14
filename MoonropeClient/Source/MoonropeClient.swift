@@ -61,7 +61,7 @@ public class MoonropeClient {
     //
     // Convinence method for making a request without params
     //
-    public func makeRequest(path:String, completionHandler:@escaping (MoonropeResponse)->()) {
+    public func makeRequest(path:String, completionHandler:((MoonropeResponse)->())?) {
         self.makeRequest(path: path, withParams: Dictionary(), completionHandler:completionHandler)
     }
 
