@@ -14,6 +14,7 @@ public class MoonropeRequest {
     public var identifier : String?
     public var delegate : MoonropeRequestDelegate?
     public static var delegate : MoonropeRequestDelegate?
+    public var useRequestDelegate : Bool = true
 
     init(client:MoonropeClient) {
         self.client = client
@@ -35,34 +36,51 @@ public class MoonropeRequest {
 
     public func make(_ path:String, withParams params: [String:Any?]) {
         type(of: self).delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
-        self.delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
+        if self.useRequestDelegate {
+            self.delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
+        }
         
         _ = self.client.makeRequest(path: path, withParams: params) {
             response in
             type(of: self).delegate?.moonrope(request: self, didMakeRequest: response)
-            self.delegate?.moonrope(request: self, didMakeRequest: response)
+            if self.useRequestDelegate {
+                self.delegate?.moonrope(request: self, didMakeRequest: response)
+            }
 
             switch(response) {
             case .Success(data: let responseData, flags: let flags):
                 type(of: self).delegate?.moonrope(request: self, didSucceedWith: responseData, andFlags: flags)
-                self.delegate?.moonrope(request: self, didSucceedWith: responseData, andFlags: flags)
+                if self.useRequestDelegate {
+                    self.delegate?.moonrope(request: self, didSucceedWith: responseData, andFlags: flags)
+                }
 
             case .Failure(message: let failureMessage):
                 type(of: self).delegate?.moonrope(request: self, didNotSucceed: response)
                 type(of: self).delegate?.moonrope(request: self, didFail: failureMessage)
-                self.delegate?.moonrope(request: self, didNotSucceed: response)
-                self.delegate?.moonrope(request: self, didFail: failureMessage)
+                
+                if self.useRequestDelegate {
+                    self.delegate?.moonrope(request: self, didNotSucceed: response)
+                    self.delegate?.moonrope(request: self, didFail: failureMessage)
+                }
 
             case .Error(errorType: let errorType, data: let errorData):
+                
+                let errorWithCodeData : [String:Any?]?
+                if(errorType == "error") {
+                    print("error")
+                    errorWithCodeData = errorData as? [String:Any?]
+                } else {
+                    errorWithCodeData = nil
+                }
+                
                 type(of: self).delegate?.moonrope(request: self, didNotSucceed: response)
                 type(of: self).delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
-                self.delegate?.moonrope(request: self, didNotSucceed: response)
-                self.delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
+                if errorWithCodeData != nil { type(of: self).delegate?.moonrope(request: self, didErrorWithCode: errorWithCodeData!["code"] as? String, andData: errorWithCodeData!) }
                 
-                if(errorType == "error") {
-                    let params = errorData as! [String:Any?]
-                    type(of: self).delegate?.moonrope(request: self, didErrorWithCode: params["code"] as? String, andData: params)
-                    self.delegate?.moonrope(request: self, didErrorWithCode: params["code"] as? String, andData: params)
+                if self.useRequestDelegate {
+                    self.delegate?.moonrope(request: self, didNotSucceed: response)
+                    self.delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
+                    if errorWithCodeData != nil { self.delegate?.moonrope(request: self, didErrorWithCode: errorWithCodeData!["code"] as? String, andData: errorWithCodeData!) }
                 }
             }
         }
