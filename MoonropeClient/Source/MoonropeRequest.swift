@@ -67,7 +67,6 @@ public class MoonropeRequest {
                 
                 let errorWithCodeData : [String:Any?]?
                 if(errorType == "error") {
-                    print("error")
                     errorWithCodeData = errorData as? [String:Any?]
                 } else {
                     errorWithCodeData = nil
