@@ -58,22 +58,11 @@ public class MoonropeRequest {
                 self.delegate?.moonrope(request: self, didNotSucceed: response)
                 self.delegate?.moonrope(request: self, didFail: failureMessage)
 
-            case .Error(errorType: let errorType, data: let errorData):
-                
-                let errorWithCodeData : [String:Any?]?
-                if(errorType == "error") {
-                    errorWithCodeData = errorData as? [String:Any?]
-                } else {
-                    errorWithCodeData = nil
-                }
-                
+            case .Error(errorCode: let errorCode, data: let errorData):
                 type(of: self).delegate?.moonrope(request: self, didNotSucceed: response)
-                type(of: self).delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
-                if errorWithCodeData != nil { type(of: self).delegate?.moonrope(request: self, didErrorWithCode: errorWithCodeData!["code"] as? String, andData: errorWithCodeData!) }
-                
+                type(of: self).delegate?.moonrope(request: self, didError: errorCode, andData: errorData)
                 self.delegate?.moonrope(request: self, didNotSucceed: response)
-                self.delegate?.moonrope(request: self, didErrorWithType: errorType, andData: errorData)
-                if errorWithCodeData != nil { self.delegate?.moonrope(request: self, didErrorWithCode: errorWithCodeData!["code"] as? String, andData: errorWithCodeData!) }
+                self.delegate?.moonrope(request: self, didError: errorCode, andData: errorData)
             }
         }
     }

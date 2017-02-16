@@ -39,7 +39,7 @@ class ExampleViewController : UITableViewController, MoonropeResponseDelegate {
   }
 
   // This delegate method will be called when any request has completed successfully.
-  func moonrope(request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any]) {
+  func moonrope(request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any?]) {
     if moonropeRequest.identifier == "GetWidgets" {
       self.widgets = responseData as! [NSDictionary]
       tableView.reloadData()
@@ -47,7 +47,7 @@ class ExampleViewController : UITableViewController, MoonropeResponseDelegate {
   }
 
   // This delegate method will be called when Moonrope returns an error
-  func moonrope(request:MoonropeRequest, didErrorWithCode errorCode: String?, andData errorData : [String:Any]) {
+  func moonrope(request:MoonropeRequest, didError errorCode: String?, andData errorData : [String:Any?]) {
     // Show an error or something. You can add your own logic for this.
   }
 

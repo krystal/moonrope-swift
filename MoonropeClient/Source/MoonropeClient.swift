@@ -18,7 +18,7 @@ public enum MoonropeResponse {
     // Returned when there is a Moonrope error. Contains the details of the error
     // and the full data for the response.
     //
-    case Error (errorType:String, data:Any)
+    case Error (errorCode:String?, data:[String:Any?])
 
     //
     // Returned when there was a failure actually communicating successfully
@@ -86,8 +86,14 @@ public class MoonropeClient {
 
                         if moonropeStatus == "success" {
                             completionHandler?(MoonropeResponse.Success(data: jsonData["data"]!, flags: moonropeFlags))
+                        } else if moonropeStatus == "error" {
+                            var data = jsonData["data"] as! [String:Any?]
+                            let errorCode = data.removeValue(forKey: "code") as? String
+                            
+                            completionHandler?(MoonropeResponse.Error(errorCode:errorCode, data: data))
+
                         } else {
-                            completionHandler?(MoonropeResponse.Error(errorType:moonropeStatus, data: jsonData["data"]!))
+                            completionHandler?(MoonropeResponse.Error(errorCode:moonropeStatus, data: jsonData["data"] as! [String:Any?]))
                         }
                         
                     } catch {
