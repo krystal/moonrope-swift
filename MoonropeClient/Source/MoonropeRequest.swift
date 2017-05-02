@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class MoonropeRequest {
+open class MoonropeRequest {
 
     let client : MoonropeClient
-    public var identifier : String?
-    public var delegate : MoonropeRequestDelegate?
-    public static var delegate : MoonropeRequestDelegate?
-    public var userInfo : [String:Any?] = [:]
-    public var beforeCallbacks : [(MoonropeRequest) -> (Void)] = []
-    public var afterCallbacks : [(MoonropeRequest) -> (Void)] = []
+    open var identifier : String?
+    open var delegate : MoonropeRequestDelegate?
+    open static var delegate : MoonropeRequestDelegate?
+    open var userInfo : [String:Any?] = [:]
+    open var beforeCallbacks : [(MoonropeRequest) -> (Void)] = []
+    open var afterCallbacks : [(MoonropeRequest) -> (Void)] = []
 
     init(client:MoonropeClient) {
         self.client = client
@@ -32,37 +32,37 @@ public class MoonropeRequest {
         self.delegate = delegate
     }
 
-    public func make(_ path:String) {
+    open func make(_ path:String) {
         self.make(path, withParams: [String:Any?]())
     }
 
-    public func make(_ path:String, withParams params: [String:Any?]) {
-        type(of: self).delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
+    open func make(_ path:String, withParams params: [String:Any?]) {
+        type(of: self).delegate?.moonrope(self, willMakeRequest: path, withParams: params)
         self.beforeCallbacks.forEach { (method) in method(self) }
-        self.delegate?.moonrope(request: self, willMakeRequest: path, withParams: params)
+        self.delegate?.moonrope(self, willMakeRequest: path, withParams: params)
         
-        self.client.makeRequest(path: path, withParams: params) {
+        self.client.makeRequest(path, withParams: params) {
             response in
-            type(of: self).delegate?.moonrope(request: self, didMakeRequest: response)
+            type(of: self).delegate?.moonrope(self, didMakeRequest: response)
             self.afterCallbacks.forEach { (method) in method(self) }
-            self.delegate?.moonrope(request: self, didMakeRequest: response)
+            self.delegate?.moonrope(self, didMakeRequest: response)
 
             switch(response) {
-            case .Success(data: let responseData, flags: let flags):
-                type(of: self).delegate?.moonrope(request: self, didSucceedWith: responseData, andFlags: flags)
-                self.delegate?.moonrope(request: self, didSucceedWith: responseData, andFlags: flags)
+            case .success(data: let responseData, flags: let flags):
+                type(of: self).delegate?.moonrope(self, didSucceedWith: responseData, andFlags: flags)
+                self.delegate?.moonrope(self, didSucceedWith: responseData, andFlags: flags)
 
-            case .Failure(message: let failureMessage):
-                type(of: self).delegate?.moonrope(request: self, didNotSucceed: response)
-                type(of: self).delegate?.moonrope(request: self, didFail: failureMessage)
-                self.delegate?.moonrope(request: self, didNotSucceed: response)
-                self.delegate?.moonrope(request: self, didFail: failureMessage)
+            case .failure(message: let failureMessage):
+                type(of: self).delegate?.moonrope(self, didNotSucceed: response)
+                type(of: self).delegate?.moonrope(self, didFail: failureMessage)
+                self.delegate?.moonrope(self, didNotSucceed: response)
+                self.delegate?.moonrope(self, didFail: failureMessage)
 
-            case .Error(errorCode: let errorCode, data: let errorData):
-                type(of: self).delegate?.moonrope(request: self, didNotSucceed: response)
-                type(of: self).delegate?.moonrope(request: self, didError: errorCode, andData: errorData)
-                self.delegate?.moonrope(request: self, didNotSucceed: response)
-                self.delegate?.moonrope(request: self, didError: errorCode, andData: errorData)
+            case .error(errorCode: let errorCode, data: let errorData):
+                type(of: self).delegate?.moonrope(self, didNotSucceed: response)
+                type(of: self).delegate?.moonrope(self, didError: errorCode, andData: errorData)
+                self.delegate?.moonrope(self, didNotSucceed: response)
+                self.delegate?.moonrope(self, didError: errorCode, andData: errorData)
             }
         }
     }
