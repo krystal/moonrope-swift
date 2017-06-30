@@ -102,7 +102,7 @@ open class MoonropeClient {
                 } else {
                     // Something is afoot. This is a failure of the API because all moonrope requests
                     // should have a 200 status.
-                    print("Something went wrong with the API: \(stringData) (code: \(actualResponse.statusCode)")
+                    print("Something went wrong with the API: \(stringData ?? "no error") (code: \(actualResponse.statusCode)")
                     completionHandler?(MoonropeResponse.failure(message: "Moonrope Internal Error"))
                 }
             } else {
