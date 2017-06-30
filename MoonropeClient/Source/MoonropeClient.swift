@@ -25,6 +25,12 @@ public enum MoonropeResponse {
     // with the remote server.
     //
     case failure(message:String)
+    
+    //
+    // Returned when the request was cancelled
+    //
+    case cancelled()
+
 }
 
 open class MoonropeClient {
@@ -62,7 +68,7 @@ open class MoonropeClient {
     // Convinence method for making a request without params
     //
     open func makeRequest(_ path:String, completionHandler:((MoonropeResponse)->())?) {
-        self.makeRequest(path, withParams: Dictionary(), completionHandler:completionHandler)
+        _ = self.makeRequest(path, withParams: Dictionary(), completionHandler:completionHandler)
     }
 
     //
@@ -70,9 +76,10 @@ open class MoonropeClient {
     // handler when complete. The handler will be called with a MoonropeResponse enum containing
     // the appropriate response information.
     //
-    open func makeRequest(_ path:String, withParams params:[String:Any?], completionHandler:((MoonropeResponse)->())?) {
+    open func makeRequest(_ path:String, withParams params:[String:Any?], completionHandler:((MoonropeResponse)->())?) -> URLSessionDataTask {
         let request = self.createRequest(path, params: params)
         let session = URLSession.shared
+        
         let task = session.dataTask(with: request as URLRequest) {
             (data, response, error) in
             if error == nil {
@@ -106,10 +113,16 @@ open class MoonropeClient {
                     completionHandler?(MoonropeResponse.failure(message: "Moonrope Internal Error"))
                 }
             } else {
-                completionHandler?(MoonropeResponse.failure(message: error!.localizedDescription))
+                let nsError = error! as NSError
+                if nsError.code == -999 {
+                    completionHandler?(MoonropeResponse.cancelled())
+                } else {
+                    completionHandler?(MoonropeResponse.failure(message: error!.localizedDescription))
+                }
             }
         }
         task.resume()
+        return task
     }
 
     //

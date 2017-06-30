@@ -17,6 +17,7 @@ open class MoonropeRequest {
     open var userInfo : [String:Any?] = [:]
     open var beforeCallbacks : [(MoonropeRequest) -> (Void)] = []
     open var afterCallbacks : [(MoonropeRequest) -> (Void)] = []
+    open var task : URLSessionDataTask?
 
     init(client:MoonropeClient) {
         self.client = client
@@ -41,8 +42,10 @@ open class MoonropeRequest {
         self.beforeCallbacks.forEach { (method) in method(self) }
         self.delegate?.moonrope(self, willMakeRequest: path, withParams: params)
         
-        self.client.makeRequest(path, withParams: params) {
+        self.task = self.client.makeRequest(path, withParams: params) {
             response in
+            self.task = nil
+            
             type(of: self).delegate?.moonrope(self, didMakeRequest: response)
             self.afterCallbacks.forEach { (method) in method(self) }
             self.delegate?.moonrope(self, didMakeRequest: response)
@@ -63,6 +66,11 @@ open class MoonropeRequest {
                 type(of: self).delegate?.moonrope(self, didError: errorCode, andData: errorData)
                 self.delegate?.moonrope(self, didNotSucceed: response)
                 self.delegate?.moonrope(self, didError: errorCode, andData: errorData)
+                
+            case .cancelled():
+                type(of: self).delegate?.moonrope(self, wasCancelled: response)
+                self.delegate?.moonrope(self, wasCancelled: response)
+                
             }
         }
     }

@@ -15,6 +15,7 @@ public protocol MoonropeRequestDelegate {
     func moonrope(_ request:MoonropeRequest, didFail errorMessage: String)
     func moonrope(_ request:MoonropeRequest, didError errorCode: String?, andData errorData : [String:Any?])
     func moonrope(_ request:MoonropeRequest, didNotSucceed response: MoonropeResponse)
+    func moonrope(_ request:MoonropeRequest, wasCancelled response: MoonropeResponse)
 }
 
 public extension MoonropeRequestDelegate {
@@ -41,4 +42,9 @@ public extension MoonropeRequestDelegate {
     func moonrope(_ request:MoonropeRequest, didNotSucceed response: MoonropeResponse) {
         // Nothing by default.
     }
+    
+    func moonrope(_ request:MoonropeRequest, wasCancelled response: MoonropeResponse) {
+        // Nothing by default.
+    }
+
 }
