@@ -12,8 +12,8 @@ open class MoonropeRequest {
 
     let client : MoonropeClient
     open var identifier : String?
-    open var delegate : MoonropeRequestDelegate?
-    open static var delegate : MoonropeRequestDelegate?
+    weak open var delegate : MoonropeRequestDelegate?
+    weak open static var delegate : MoonropeRequestDelegate?
     open var userInfo : [String:Any?] = [:]
     open var beforeCallbacks : [(MoonropeRequest) -> (Void)] = []
     open var afterCallbacks : [(MoonropeRequest) -> (Void)] = []

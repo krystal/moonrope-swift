@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol MoonropeRequestDelegate {
+public protocol MoonropeRequestDelegate : NSObjectProtocol {
     func moonrope(_ request:MoonropeRequest, willMakeRequest path: String, withParams params: [String:Any?])
     func moonrope(_ request:MoonropeRequest, didMakeRequest response: MoonropeResponse)
     func moonrope(_ request:MoonropeRequest, didSucceedWith responseData: Any, andFlags flags: [String:Any?])
