@@ -29,7 +29,7 @@ public enum MoonropeResponse {
     //
     // Returned when the request was cancelled
     //
-    case cancelled()
+    case cancelled
 
 }
 
@@ -115,7 +115,7 @@ open class MoonropeClient {
             } else {
                 let nsError = error! as NSError
                 if nsError.code == -999 {
-                    completionHandler?(MoonropeResponse.cancelled())
+                    completionHandler?(MoonropeResponse.cancelled)
                 } else {
                     completionHandler?(MoonropeResponse.failure(message: error!.localizedDescription))
                 }

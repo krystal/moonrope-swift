@@ -13,7 +13,7 @@ open class MoonropeRequest {
     let client : MoonropeClient
     open var identifier : String?
     weak open var delegate : MoonropeRequestDelegate?
-    weak open static var delegate : MoonropeRequestDelegate?
+    weak public static var delegate : MoonropeRequestDelegate?
     open var userInfo : [String:Any?] = [:]
     open var beforeCallbacks : [(MoonropeRequest) -> (Void)] = []
     open var afterCallbacks : [(MoonropeRequest) -> (Void)] = []
@@ -67,7 +67,7 @@ open class MoonropeRequest {
                 self.delegate?.moonrope(self, didNotSucceed: response)
                 self.delegate?.moonrope(self, didError: errorCode, andData: errorData)
                 
-            case .cancelled():
+            case .cancelled:
                 type(of: self).delegate?.moonrope(self, wasCancelled: response)
                 self.delegate?.moonrope(self, wasCancelled: response)
                 
